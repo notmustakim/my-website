@@ -317,6 +317,19 @@
       *, *::before, *::after { scroll-behavior: auto !important; animation: none !important; transition: none !important; }
       .reveal { opacity: 1; transform: none; }
     }
+
+    .profile-photo {
+  width: 46%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 30%;
+  border: 2px solid rgba(196, 245, 106, 0.6);
+  box-shadow: 0 0 100px rgba(196, 245, 106, 0.12);
+  position: relative;
+  z-index: 1;
+}
+
+    
   </style>
 </head>
 <body>
@@ -354,7 +367,11 @@
         <div class="hero-art" aria-label="Animated M monogram">
           <div class="orbit"></div>
           <div class="orbit two"></div>
-          <div class="monogram">M<span class="accent">.</span></div>
+          <img
+  class="profile-photo"
+  src="https://i.postimg.cc/pLgFVpWx/IMG-20261002-100924.jpg"
+  alt="Mustakim"
+>
           <div class="floating-label mono">LEARN · BUILD · REPEAT</div>
         </div>
       </section>
