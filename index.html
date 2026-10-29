@@ -4,29 +4,504 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>My Website</title>
+  <meta name="theme-color" content="#0b1020">
+  <meta name="description" content="The personal website of Mustakim — projects, ideas, learning, and experiments.">
+  <title>Mustakim — Personal Website</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --bg: #0b1020;
+      --panel: #111a2d;
+      --text: #f2f5fc;
+      --muted: #9aa8bf;
+      --accent: #c4f56a;
+      --border: rgba(255,255,255,.10);
+      --width: 1080px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 90px; }
+
     body {
       margin: 0;
-      min-height: 100vh;
+      background:
+        radial-gradient(ellipse at 80% 5%, rgba(83,100,180,.15), transparent 35%),
+        var(--bg);
+      color: var(--text);
+      font-family: "Manrope", sans-serif;
+      line-height: 1.7;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; }
+    .container { width: min(var(--width), calc(100% - 40px)); margin: auto; }
+
+    .mono {
+      font-family: "DM Mono", monospace;
+      font-size: .76rem;
+      letter-spacing: .08em;
+    }
+
+    .accent { color: var(--accent); }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(11,16,32,.86);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    nav {
+      min-height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand { display: flex; align-items: center; gap: 11px; font-weight: 800; }
+    .brand-icon {
       display: grid;
       place-items: center;
-      background: #101827;
-      color: white;
-      font-family: Arial, sans-serif;
-      text-align: center;
+      width: 38px;
+      height: 38px;
+      border-radius: 11px;
+      color: var(--bg);
+      background: var(--accent);
+      font-size: 1.15rem;
     }
-    main { padding: 24px; }
-    h1 { font-size: 3rem; }
-    p { color: #bdc8da; }
-    a { color: #7dd3fc; }
+
+    .nav-links { display: flex; align-items: center; gap: 28px; }
+    .nav-links a { font-size: .86rem; color: var(--muted); transition: color .2s; }
+    .nav-links a:hover { color: var(--accent); }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 12px 18px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      font-weight: 700;
+      font-size: .9rem;
+      transition: transform .2s, background .2s;
+    }
+
+    .button:hover { transform: translateY(-2px); }
+    .button.primary { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+    .button.secondary:hover { background: var(--panel); }
+
+    .hero {
+      min-height: 650px;
+      display: grid;
+      grid-template-columns: 1.3fr .7fr;
+      align-items: center;
+      gap: 56px;
+      padding-top: 75px;
+      padding-bottom: 85px;
+    }
+
+    .eyebrow { display: flex; align-items: center; gap: 11px; color: var(--accent); }
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 15px var(--accent);
+    }
+
+    h1 {
+      margin: 25px 0;
+      font-size: clamp(3rem, 7vw, 5.6rem);
+      line-height: 1.06;
+      letter-spacing: -.075em;
+      font-weight: 800;
+    }
+
+    h1 span { color: var(--accent); }
+    .hero-copy { max-width: 530px; color: var(--muted); font-size: 1.08rem; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+
+    .hero-art {
+      position: relative;
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      isolation: isolate;
+    }
+
+    .orbit {
+      position: absolute;
+      width: 100%;
+      aspect-ratio: 1;
+      border: 1px solid rgba(196,245,106,.2);
+      border-radius: 50%;
+      animation: spin 28s linear infinite;
+    }
+
+    .orbit::before {
+      content: "";
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      top: 13%;
+      left: 14%;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 22px var(--accent);
+    }
+
+    .orbit.two {
+      width: 76%;
+      border-color: rgba(151,171,255,.24);
+      animation-direction: reverse;
+      animation-duration: 21s;
+    }
+
+    .orbit.two::before { background: #a6b7ff; box-shadow: 0 0 20px #a6b7ff; }
+
+    .monogram {
+      display: grid;
+      place-items: center;
+      width: 46%;
+      aspect-ratio: 1;
+      border-radius: 30%;
+      background: linear-gradient(145deg, #1d2b43, #11192b);
+      border: 1px solid rgba(196,245,106,.35);
+      box-shadow: 0 0 100px rgba(196,245,106,.08);
+      font-size: clamp(3rem, 7vw, 5rem);
+      font-weight: 800;
+      letter-spacing: -.1em;
+    }
+
+    .floating-label {
+      position: absolute;
+      right: -4%;
+      bottom: 15%;
+      padding: 12px 15px;
+      border: 1px solid var(--border);
+      background: #121c30;
+      border-radius: 12px;
+      color: var(--muted);
+      font-size: .76rem;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .ticker {
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      overflow: hidden;
+      padding: 17px 0;
+      color: var(--muted);
+    }
+
+    .ticker-inner {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      gap: 16px 28px;
+    }
+
+    .ticker span { color: var(--accent); padding-right: 8px; }
+
+    section { padding: 100px 0; }
+
+    .section-top {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 35px;
+    }
+
+    .section-label { color: var(--accent); }
+    h2 {
+      margin: 8px 0 0;
+      font-size: clamp(2rem, 4vw, 3rem);
+      letter-spacing: -.06em;
+      line-height: 1.2;
+    }
+
+    .section-description { max-width: 440px; color: var(--muted); margin: 0; }
+
+    .projects {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap: 18px;
+    }
+
+    .project {
+      min-height: 240px;
+      padding: 27px;
+      background: linear-gradient(145deg, rgba(23,34,55,.95), rgba(15,23,40,.95));
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      transition: border-color .2s, transform .2s;
+    }
+
+    .project:hover { border-color: rgba(196,245,106,.4); transform: translateY(-4px); }
+    .project-head { display: flex; align-items: center; justify-content: space-between; }
+    .project-icon { font-size: 1.5rem; }
+    .project-number { color: #65738d; }
+    .project h3 { margin: 25px 0 8px; font-size: 1.2rem; }
+    .project p { margin: 0; color: var(--muted); font-size: .92rem; }
+    .project-link { display: inline-block; margin-top: 20px; color: var(--accent); font-size: .86rem; }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: .8fr 1.2fr;
+      gap: 60px;
+      align-items: start;
+    }
+
+    .about-card {
+      padding: 30px;
+      border-radius: 18px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+    }
+
+    .about-card .big-m { font-size: 5rem; color: var(--accent); font-weight: 800; line-height: 1.2; }
+    .about-card p, .about-copy p { color: var(--muted); }
+    .about-copy p { margin-top: 0; margin-bottom: 20px; }
+
+    .tags { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 24px; }
+    .tag { border: 1px solid var(--border); padding: 7px 12px; border-radius: 99px; color: #c6d0e0; font-size: .8rem; }
+
+    .contact-box {
+      padding: clamp(28px, 6vw, 65px);
+      border: 1px solid rgba(196,245,106,.22);
+      border-radius: 24px;
+      background: radial-gradient(ellipse at 100% 0%, rgba(196,245,106,.09), transparent 55%), var(--panel);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 35px;
+    }
+
+    .contact-box p { max-width: 490px; color: var(--muted); }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 26px 0;
+      color: var(--muted);
+      font-size: .82rem;
+    }
+
+    .footer-inner { display: flex; justify-content: space-between; align-items: center; gap: 15px; }
+
+    .reveal { opacity: 0; transform: translateY(18px); transition: opacity .7s, transform .7s; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+
+    @media (max-width: 760px) {
+      .nav-links { gap: 15px; }
+      .nav-links a:not(.button) { display: none; }
+      .hero { min-height: auto; grid-template-columns: 1fr; padding-top: 85px; gap: 30px; }
+      .hero-art { width: min(300px, 80%); margin: 0 auto; }
+      .section-top { align-items: start; flex-direction: column; }
+      .projects, .about-grid { grid-template-columns: 1fr; }
+      .about-grid { gap: 25px; }
+      section { padding: 75px 0; }
+      .contact-box { flex-direction: column; align-items: start; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation: none !important; transition: none !important; }
+      .reveal { opacity: 1; transform: none; }
+    }
   </style>
 </head>
 <body>
+  <header>
+    <nav class="container">
+      <a class="brand" href="#home" aria-label="Mustakim home">
+        <span class="brand-icon">M.</span>
+        <span>mustakim<span class="accent">.qd.je</span></span>
+      </a>
+      <div class="nav-links">
+        <a href="#work">Work</a>
+        <a href="#about">About</a>
+        <a href="#contact" class="button secondary">Get in touch ↗</a>
+      </div>
+    </nav>
+  </header>
+
   <main>
-    <h1>Welcome to My Website</h1>
-    <p>My own website, published for free.</p>
-    <a href="https://github.com/">Visit GitHub</a>
+    <div class="container">
+      <section class="hero" id="home">
+        <div>
+          <div class="eyebrow mono"><span class="dot"></span> MY CORNER OF THE INTERNET</div>
+          <h1>Curious mind.<br><span>Digital space.</span></h1>
+          <p class="hero-copy">
+            Hey, I'm Mustakim. Welcome to my personal website —
+            a place for my projects, ideas, learning, and experiments.
+            I'm building things, exploring what interests me, and
+            documenting the journey along the way.
+          </p>
+          <div class="hero-actions">
+            <a class="button primary" href="#work">Explore my work ↘</a>
+            <a class="button secondary" href="https://github.com/notmustakim" target="_blank" rel="noopener noreferrer">Visit GitHub ↗</a>
+          </div>
+        </div>
+        <div class="hero-art" aria-label="Animated M monogram">
+          <div class="orbit"></div>
+          <div class="orbit two"></div>
+          <div class="monogram">M<span class="accent">.</span></div>
+          <div class="floating-label mono">LEARN · BUILD · REPEAT</div>
+        </div>
+      </section>
+    </div>
+
+    <div class="ticker mono">
+      <div class="container ticker-inner">
+        <div><span>✳</span> CURIOSITY</div>
+        <div><span>✳</span> CREATIVITY</div>
+        <div><span>✳</span> CONTINUOUS LEARNING</div>
+        <div><span>✳</span> EXPERIMENTATION</div>
+      </div>
+    </div>
+
+    <section id="work">
+      <div class="container">
+        <div class="section-top reveal">
+          <div>
+            <div class="section-label mono">01 / WHAT I DO</div>
+            <h2>A space for <span class="accent">ideas.</span></h2>
+          </div>
+          <p class="section-description">
+            This site will grow with me. Here are a few areas where
+            I'll collect the things I make, learn, and discover.
+          </p>
+        </div>
+
+        <div class="projects">
+          <article class="project reveal">
+            <div class="project-head">
+              <span class="project-icon">⌘</span>
+              <span class="project-number mono">01 / BUILD</span>
+            </div>
+            <h3>Projects & experiments</h3>
+            <p>A home for personal projects, small tools, and ideas I decide to bring to life.</p>
+            <a class="project-link" href="https://github.com/notmustakim" target="_blank" rel="noopener noreferrer">Explore my GitHub ↗</a>
+          </article>
+
+          <article class="project reveal">
+            <div class="project-head">
+              <span class="project-icon">⌘</span>
+              <span class="project-number mono">02 / LEARN</span>
+            </div>
+            <h3>Notes & discoveries</h3>
+            <p>A growing collection of useful things I learn and want to remember.</p>
+            <a class="project-link" href="#about">More about this space ↓</a>
+          </article>
+
+          <article class="project reveal">
+            <div class="project-head">
+              <span class="project-icon">✳</span>
+              <span class="project-number mono">03 / EXPLORE</span>
+            </div>
+            <h3>Web & technology</h3>
+            <p>A place to explore web design, digital tools, and ways to make the internet useful.</p>
+            <a class="project-link" href="https://github.com/notmustakim" target="_blank" rel="noopener noreferrer">See GitHub ↗</a>
+          </article>
+
+          <article class="project reveal">
+            <div class="project-head">
+              <span class="project-icon">↗</span>
+              <span class="project-number mono">04 / CONNECT</span>
+            </div>
+            <h3>Ideas worth sharing</h3>
+            <p>Room for future writing, useful resources, and things that might help someone else.</p>
+            <a class="project-link" href="#contact">Say hello ↓</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="about">
+      <div class="container">
+        <div class="about-grid">
+          <div class="about-card reveal">
+            <div class="mono accent">A LITTLE INTRODUCTION</div>
+            <div class="big-m">M.</div>
+            <h3>Hi, I'm Mustakim.</h3>
+            <p>This is my own space on the web — simple, personal, and always evolving.</p>
+          </div>
+          <div class="about-copy reveal">
+            <div class="section-label mono">02 / ABOUT THIS SITE</div>
+            <h2>Still learning.<br><span class="accent">Always exploring.</span></h2>
+            <p>
+              I created this website as a home for my online presence.
+              Instead of keeping everything scattered, I want one place
+              where projects, interests, and future work can live.
+            </p>
+            <p>
+              This is a work in progress. As I learn new things and
+              create things worth sharing, this space will grow too.
+            </p>
+            <div class="tags">
+              <span class="tag">Personal projects</span>
+              <span class="tag">Web & technology</span>
+              <span class="tag">Learning</span>
+              <span class="tag">Experimentation</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="container">
+        <div class="contact-box reveal">
+          <div>
+            <div class="section-label mono">03 / SAY HELLO</div>
+            <h2>Let's connect<span class="accent">.</span></h2>
+            <p>
+              Have an interesting idea, want to talk about a project,
+              or just want to say hello? Find me on GitHub.
+            </p>
+          </div>
+          <a class="button primary" href="https://github.com/notmustakim" target="_blank" rel="noopener noreferrer">Find me on GitHub ↗</a>
+        </div>
+      </div>
+    </section>
   </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <span>© <span id="year">2026</span> Mustakim. Built with curiosity.</span>
+      <a class="accent" href="#home">Back to top ↑</a>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    const items = document.querySelectorAll(".reveal");
+
+    if ("IntersectionObserver" in window &&
+        !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12 });
+
+      items.forEach((item) => observer.observe(item));
+    } else {
+      items.forEach((item) => item.classList.add("visible"));
+    }
+  </script>
 </body>
 </html>
